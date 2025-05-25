@@ -141,7 +141,7 @@ const Analysis = () => {
           </div>
 
           {/* Right Column: Fixed Top-Right Pyramid Layout */}
-          <div className="hidden md:flex fixed top-6 right-6 z-50 w-72 flex-col items-center justify-center gap-4 bg-white bg-opacity-90 rounded-xl shadow-lg p-4">
+          <div className="hidden md:flex fixed top-30 right-6 z-50 w-72 flex-col items-center justify-center gap-4 bg-white bg-opacity-90 rounded-xl shadow-lg p-4">
             {/* Top Row */}
             <div className="flex justify-center gap-4">
               <ProgressCircle value={parseInt(analysisResult.resume_score)} label="Resume Score" />

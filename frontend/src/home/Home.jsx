@@ -22,7 +22,7 @@ const Home = () => {
 
           <div className="mt-6 flex items-center gap-2 text-gray-500 text-sm">
             <span>Powered by</span>
-            <img src="/public/gemini.png" alt="Gemini" className="h-5" width={60} height={200} />
+            <img src="https://raw.githubusercontent.com/KrishPatel1605/NextDesk/refs/heads/main/frontend/public/gemini.png" alt="Gemini" className="h-5" width={60} height={200} />
           </div>
         </div>
 
