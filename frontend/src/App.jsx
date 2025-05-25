@@ -5,8 +5,8 @@ import Header from "./components/custom/Header"
 function App() {
 
   return (
-    <div className="p-8">
-    <Header/>
+    <div className="p-5">
+    <Header className='mb-4'/>
      <Outlet/>  
     </div>
   )
