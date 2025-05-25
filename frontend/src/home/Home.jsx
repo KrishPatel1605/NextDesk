@@ -91,6 +91,7 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -172,7 +173,8 @@ const Home = () => {
         <div className="relative flex items-center justify-center mb-12">
           <div className="absolute w-full h-1 bg-gray-300 top-1/2 transform -translate-y-1/2 z-0" />
           <div className="flex justify-center space-x-12 z-10">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md font-medium shadow-sm text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-700">
+
+            <button className="bg-white border border-gray-300 px-4 py-2 rounded-md font-medium text-gray-700 text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-600 hover:text-white hover:border-blue-600">
               Resume Upload
             </button>
             <button className="bg-white border border-gray-300 px-4 py-2 rounded-md font-medium text-gray-700 text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-600 hover:text-white hover:border-blue-600">
@@ -189,13 +191,7 @@ const Home = () => {
             ref={hubLeftRef}
             className="w-full md:w-1/2 bg-gray-100 rounded-lg shadow-inner h-[300px] md:h-[320px] relative px-4 flex justify-center items-center"
           >
-            <img src="/ai-chat.png" alt="AI Chat Visual" className="max-h-full object-contain z-0" />
-            <div className="absolute top-8 left-4 bg-white px-3 py-2 rounded-md shadow text-xs md:text-sm font-medium z-10">
-              Hi, I’m trying to improve. Can you help?
-            </div>
-            <div className="absolute bottom-8 left-12 bg-blue-100 px-3 py-2 rounded-md shadow text-xs md:text-sm font-medium text-[#1F2937] z-10">
-              Absolutely! Let’s identify the roles you’re applying for...
-            </div>
+            <img src="public/gemini.png" alt="AI Chat Visual" className="h-20 " />
           </div>
 
           <div ref={hubRightRef} className="w-full md:w-1/2">
@@ -205,13 +201,15 @@ const Home = () => {
             <p className="text-gray-700 text-sm md:text-base mb-5 leading-relaxed">
               Using a powerful AI Model, your personal AI consultant analyzes job descriptions and companies to offer career insights. Get expert help with trends, interviews, and growth strategies tailored to your goals.
             </p>
-            <button className="text-blue-600 font-semibold hover:underline text-base">
+            <nav>
+                           <button className="text-blue-600 font-semibold hover:underline text-base">
               Get Started →
             </button>
-          </div>
+          </nav>
         </div>
-      </section>
     </div>
+      </section >
+    </div >
   )
 }
 
