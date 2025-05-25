@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+
+
+import React, { useState, useEffect, useRef } from 'react';
 import { PlusSquare } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddResume = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -7,6 +11,14 @@ const AddResume = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [showActionPopup, setShowActionPopup] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0); // for progress bar
+  const [error, setError] = useState("");
+  const [analysisResult, setAnalysisResult] = useState(null);
+
+  const navigate = useNavigate();
+  const progressIntervalRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -20,6 +32,92 @@ const AddResume = () => {
     setSelectedFile(file);
     setShowActionPopup(true);
     setShowFullPreview(false);
+    setAnalysisResult(null);
+    setError("");
+    setProgress(0);
+  };
+
+  // const analyzeFile = () => {
+  //   if (!selectedFile) return;
+
+  //   setLoading(true);
+  //   setError("");
+  //   setAnalysisResult(null);
+  //   setProgress(0);
+
+  //   // Start progress bar simulation
+  //   progressIntervalRef.current = setInterval(() => {
+  //     setProgress((prev) => {
+  //       if (prev >= 90) return prev; // cap at 90% until done
+  //       return prev + 5;
+  //     });
+  //   }, 300);
+
+  //   const formData = new FormData();
+  //   formData.append("file", selectedFile);
+
+  //   axios
+  //     .post("https://nextdesk.onrender.com/upload", formData)
+  //     .then((res) => {
+  //       console.log("Analysis Result:", res.data);
+  //       setAnalysisResult(res.data.analysis || "Analysis complete.");
+  //       setProgress(100); // set progress bar to full
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error analyzing file:", err);
+  //       setError("Failed to analyze resume.");
+  //       setProgress(0);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //       clearInterval(progressIntervalRef.current);
+  //     });
+  // };
+
+  const analyzeFile = () => {
+    if (!selectedFile) return;
+
+    setLoading(true);
+    setError("");
+    setAnalysisResult(null);
+    setProgress(0);
+
+    let currentProgress = 0;
+    progressIntervalRef.current = setInterval(() => {
+      currentProgress += Math.floor(Math.random() * 10) + 1;
+      if (currentProgress >= 90) {
+        currentProgress = 90;
+        clearInterval(progressIntervalRef.current);
+      }
+      setProgress(currentProgress);
+    }, 300);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    axios
+      .post("https://nextdesk.onrender.com/upload", formData)
+      .then((res) => {
+        setTimeout(() => {
+          setProgress(100);
+        }, 300); // Simulate short delay before showing 100%
+        setAnalysisResult(res.data.analysis || "Analysis complete.");
+      })
+      .catch((err) => {
+        console.error("Error analyzing file:", err);
+        setError("Failed to analyze resume.");
+        setProgress(0);
+      })
+      .finally(() => {
+        setLoading(false);
+        clearInterval(progressIntervalRef.current);
+      });
+  };
+
+  // Navigate to Analysis page with analysisResult
+  const handleViewAnalysis = () => {
+    navigate("/analysis", { state: { analysisResult, fileName: selectedFile?.name } });
+    setShowActionPopup(false);
   };
 
   return (
@@ -98,8 +196,7 @@ const AddResume = () => {
 
       {/* Action Popup (Preview / Analyze) */}
       {showActionPopup && selectedFile && (
-        
-        <div className="fixed inset-0  bg-opacity-20 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
           <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px]">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Resume:</h2>
@@ -112,22 +209,106 @@ const AddResume = () => {
             </div>
             <p className="text-sm text-gray-500 mb-3 truncate">{selectedFile.name}</p>
 
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                onClick={() => setShowFullPreview(true)}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-              >
-                Preview
-              </button>
-              <button
-                onClick={() => {
-                  
-                }}
-                className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
-              >
-                Analyze
-              </button>
-            </div>
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            {/* 
+            {loading ? (
+              <>
+          
+                <div className="w-full bg-gray-200 rounded-full h-4 mt-3 overflow-hidden">
+                  <div
+                    className="bg-purple-600 h-4 transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mt-2">Analyzing...</p>
+              </>
+            ) : analysisResult ? (
+              <>
+                <div className="text-sm text-green-600 mt-2 max-h-40 overflow-auto">
+                  {typeof analysisResult === "object" ? (
+                    <>
+                      <p><strong>Resume Score:</strong> {analysisResult.resume_score}</p>
+                      <p><strong>Industry Ranking:</strong> {analysisResult.industry_ranking}</p>
+                      <p><strong>Feedback:</strong> {analysisResult.overall_feedback}</p>
+                      {analysisResult.key_insights && (
+                        <>
+                          <p><strong>Key Insights:</strong></p>
+                          <ul className="list-disc list-inside">
+                            {Object.entries(analysisResult.key_insights).map(([key, value]) => (
+                              <li key={key}>{key}: {String(value)}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    analysisResult
+                  )}
+                </div>
+                <button
+                  onClick={handleViewAnalysis}
+                  className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                  View Analysis
+                </button>
+              </>
+            ) : (
+              // Show buttons only if not loading or no analysis yet
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  onClick={() => setShowFullPreview(true)}
+                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                  Preview
+                </button>
+                <button
+                  onClick={analyzeFile}
+                  className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                >
+                  Analyze
+                </button>
+              </div>
+             
+            )} */}
+            {loading ? (
+              <>
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 rounded-full h-4 mt-3 overflow-hidden">
+                  <div
+                    className="bg-purple-600 h-4 transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  {progress < 100 ? `${progress}% analyzing...` : `100% analyzed`}
+                </p>
+              </>
+            ) : analysisResult ? (
+              <>
+                <button
+                  onClick={handleViewAnalysis}
+                  className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                  View Analysis
+                </button>
+              </>
+            ) : (
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  onClick={() => setShowFullPreview(true)}
+                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                >
+                  Preview
+                </button>
+                <button
+                  onClick={analyzeFile}
+                  className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                >
+                  Analyze
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
       )}

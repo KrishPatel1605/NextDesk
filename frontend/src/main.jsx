@@ -4,7 +4,8 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './home/Home'
-import Dashboard from './ResumeBuild/ResumeBuild'
+import ResumeBuild from './ResumeBuild/ResumeBuild'
+import Analysis from './Analysis/Analysis'
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/resume-build',
-        element: <Dashboard/>
+        element: <ResumeBuild />
+      },
+      {
+        path: '/analysis',
+        element: <Analysis />
       }
 
     ]
@@ -26,9 +31,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-  <RouterProvider router={router}>
-    <App />
-  </RouterProvider>
+    <RouterProvider router={router}>
+      <App />
+    </RouterProvider>
   </StrictMode>,
 
 )
