@@ -91,7 +91,7 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -103,7 +103,7 @@ const Home = () => {
   const hubRef = useRef(null)
   const hubLeftRef = useRef(null)
   const hubRightRef = useRef(null)
-
+  const navigate = useNavigate();
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Hero Section Animation (on load)
@@ -164,13 +164,13 @@ const Home = () => {
       {/* AI Hub Section */}
       <section
         ref={hubRef}
-        className="bg-[#f4f5f7] border-t border-gray-200 px-4 md:px-12 py-16 md:py-20 rounded-md shadow-sm"
+        className="bg-[#f4f5f7] border-t border-gray-200 px-4 md:px-8 py-8 md:py-15 rounded-md shadow-sm mt-15"
       >
         <h2 className="text-2xl md:text-3xl font-bold text-center text-[#1F2937] mb-10">
           Unlock Dream Career with <span className="text-[#111827]">AI Hub</span>
         </h2>
 
-        <div className="relative flex items-center justify-center mb-12">
+        {/* <div className="relative flex items-center justify-center mb-12">
           <div className="absolute w-full h-1 bg-gray-300 top-1/2 transform -translate-y-1/2 z-0" />
           <div className="flex justify-center space-x-12 z-10">
 
@@ -184,30 +184,59 @@ const Home = () => {
               Report
             </button>
           </div>
-        </div>
+        </div> */}
 
+
+        <div className="relative flex items-center justify-center my-10">
+          {/* Horizontal line behind buttons */}
+          <div className="absolute top-1/2 w-[300px] h-1 bg-gray-300 z-0 translate-y-[-50%]" />
+
+          {/* Buttons */}
+          <div className="flex justify-between space-x-12 z-10">
+            <button
+              onClick={() => navigate('/resume-build')}
+              className="bg-white border border-gray-300 px-4 py-2 rounded-md font-medium text-gray-700 text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-600 hover:text-white hover:border-blue-600"
+            >
+              Resume Upload
+            </button>
+
+            <button
+              onClick={() => navigate('/analysis')}
+              className="bg-white border border-gray-300 px-4 py-2 rounded-md font-medium text-gray-700 text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-600 hover:text-white hover:border-blue-600"
+            >
+              Analysis
+            </button>
+
+            <button
+              onClick={() => navigate('/report')}
+              className="bg-white border border-gray-300 px-4 py-2 rounded-md font-medium text-gray-700 text-sm md:text-base transform transition-transform duration-200 hover:scale-105 hover:bg-blue-600 hover:text-white hover:border-blue-600"
+            >
+              Report
+            </button>
+          </div>
+        </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-10">
           <div
             ref={hubLeftRef}
-            className="w-full md:w-1/2 bg-gray-100 rounded-lg shadow-inner h-[300px] md:h-[320px] relative px-4 flex justify-center items-center"
+            className="w-full md:w-1/2 bg-gray-100 rounded-lg h-[300px] md:h-[320px] relative px-4 flex justify-center items-center"
           >
-            <img src="public/gemini.png" alt="AI Chat Visual" className="h-20 " />
+            <img src="public/hero.png" alt="AI Chat Visual" className="h-[350px] w-auto" />
           </div>
 
           <div ref={hubRightRef} className="w-full md:w-1/2">
             <h3 className="text-xl md:text-2xl font-semibold text-[#1F2937] mb-3">
-              Your Career Compass,<br /> Powered by AI
+              Your Career Compass, Powered by AI
             </h3>
             <p className="text-gray-700 text-sm md:text-base mb-5 leading-relaxed">
-              Using a powerful AI Model, your personal AI consultant analyzes job descriptions and companies to offer career insights. Get expert help with trends, interviews, and growth strategies tailored to your goals.
+              Using a powerful AI Model of Gemini-2.0-Flash, your personal AI consultant analyzes job descriptions and companies to offer career insights. Get expert help with trends, interviews, and growth strategies tailored to your goals.
             </p>
             <nav>
-                           <button className="text-blue-600 font-semibold hover:underline text-base">
-              Get Started →
-            </button>
-          </nav>
+              <button className="text-blue-600 font-semibold hover:underline text-base">
+                Get Started →
+              </button>
+            </nav>
+          </div>
         </div>
-    </div>
       </section >
     </div >
   )
