@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { PlusSquare } from 'lucide-react';
 import axios from 'axios';
@@ -13,7 +11,7 @@ const AddResume = () => {
   const [showFullPreview, setShowFullPreview] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0); // for progress bar
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
   const [analysisResult, setAnalysisResult] = useState(null);
 
@@ -36,43 +34,6 @@ const AddResume = () => {
     setError("");
     setProgress(0);
   };
-
-  // const analyzeFile = () => {
-  //   if (!selectedFile) return;
-
-  //   setLoading(true);
-  //   setError("");
-  //   setAnalysisResult(null);
-  //   setProgress(0);
-
-  //   // Start progress bar simulation
-  //   progressIntervalRef.current = setInterval(() => {
-  //     setProgress((prev) => {
-  //       if (prev >= 90) return prev; // cap at 90% until done
-  //       return prev + 5;
-  //     });
-  //   }, 300);
-
-  //   const formData = new FormData();
-  //   formData.append("file", selectedFile);
-
-  //   axios
-  //     .post("https://nextdesk.onrender.com/upload", formData)
-  //     .then((res) => {
-  //       console.log("Analysis Result:", res.data);
-  //       setAnalysisResult(res.data.analysis || "Analysis complete.");
-  //       setProgress(100); // set progress bar to full
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error analyzing file:", err);
-  //       setError("Failed to analyze resume.");
-  //       setProgress(0);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //       clearInterval(progressIntervalRef.current);
-  //     });
-  // };
 
   const analyzeFile = () => {
     if (!selectedFile) return;
@@ -100,7 +61,7 @@ const AddResume = () => {
       .then((res) => {
         setTimeout(() => {
           setProgress(100);
-        }, 300); // Simulate short delay before showing 100%
+        }, 300);
         setAnalysisResult(res.data.analysis || "Analysis complete.");
       })
       .catch((err) => {
@@ -114,7 +75,6 @@ const AddResume = () => {
       });
   };
 
-  // Navigate to Analysis page with analysisResult
   const handleViewAnalysis = () => {
     navigate("/analysis", { state: { analysisResult, fileName: selectedFile?.name } });
     setShowActionPopup(false);
@@ -127,7 +87,7 @@ const AddResume = () => {
       <div className="flex flex-wrap-reverse gap-6">
         {/* Add Resume Box */}
         <div
-          className="order-first w-[280px] h-[380px] flex flex-col items-center justify-center border-2 border-dashed border-gray-400 text-gray-600 rounded-xl cursor-pointer hover:border-purple-500 hover:text-purple-600 transition"
+          className="order-first w-[280px] h-[380px] flex flex-col items-center justify-center border-2 border-dashed border-gray-400 text-gray-600 rounded-xl cursor-pointer hover:border-blue-500 hover:text-blue-600 transition"
           onClick={() => setShowPopup(true)}
         >
           <PlusSquare size={40} className="mb-2" />
@@ -180,7 +140,7 @@ const AddResume = () => {
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
-              className="w-full mb-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200"
+              className="w-full mb-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
             />
             <div className="flex justify-end">
               <button
@@ -194,7 +154,7 @@ const AddResume = () => {
         </div>
       )}
 
-      {/* Action Popup (Preview / Analyze) */}
+      {/* Action Popup */}
       {showActionPopup && selectedFile && (
         <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
           <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px]">
@@ -210,72 +170,12 @@ const AddResume = () => {
             <p className="text-sm text-gray-500 mb-3 truncate">{selectedFile.name}</p>
 
             {error && <p className="text-sm text-red-500">{error}</p>}
-            {/* 
+
             {loading ? (
               <>
-          
                 <div className="w-full bg-gray-200 rounded-full h-4 mt-3 overflow-hidden">
                   <div
-                    className="bg-purple-600 h-4 transition-all duration-300"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-                <p className="text-sm text-gray-600 mt-2">Analyzing...</p>
-              </>
-            ) : analysisResult ? (
-              <>
-                <div className="text-sm text-green-600 mt-2 max-h-40 overflow-auto">
-                  {typeof analysisResult === "object" ? (
-                    <>
-                      <p><strong>Resume Score:</strong> {analysisResult.resume_score}</p>
-                      <p><strong>Industry Ranking:</strong> {analysisResult.industry_ranking}</p>
-                      <p><strong>Feedback:</strong> {analysisResult.overall_feedback}</p>
-                      {analysisResult.key_insights && (
-                        <>
-                          <p><strong>Key Insights:</strong></p>
-                          <ul className="list-disc list-inside">
-                            {Object.entries(analysisResult.key_insights).map(([key, value]) => (
-                              <li key={key}>{key}: {String(value)}</li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    analysisResult
-                  )}
-                </div>
-                <button
-                  onClick={handleViewAnalysis}
-                  className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-                >
-                  View Analysis
-                </button>
-              </>
-            ) : (
-              // Show buttons only if not loading or no analysis yet
-              <div className="flex justify-end gap-2 mt-4">
-                <button
-                  onClick={() => setShowFullPreview(true)}
-                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-                >
-                  Preview
-                </button>
-                <button
-                  onClick={analyzeFile}
-                  className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
-                >
-                  Analyze
-                </button>
-              </div>
-             
-            )} */}
-            {loading ? (
-              <>
-                {/* Progress Bar */}
-                <div className="w-full bg-gray-200 rounded-full h-4 mt-3 overflow-hidden">
-                  <div
-                    className="bg-purple-600 h-4 transition-all duration-300"
+                    className="bg-blue-600 h-4 transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -287,7 +187,7 @@ const AddResume = () => {
               <>
                 <button
                   onClick={handleViewAnalysis}
-                  className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   View Analysis
                 </button>
@@ -296,7 +196,7 @@ const AddResume = () => {
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   onClick={() => setShowFullPreview(true)}
-                  className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
                   Preview
                 </button>
@@ -308,7 +208,6 @@ const AddResume = () => {
                 </button>
               </div>
             )}
-
           </div>
         </div>
       )}
