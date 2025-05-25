@@ -191,7 +191,7 @@ const Home = () => {
             ref={hubLeftRef}
             className="w-full md:w-1/2 bg-gray-100 rounded-lg shadow-inner h-[300px] md:h-[320px] relative px-4 flex justify-center items-center"
           >
-            <img src="public/gemini.png" alt="AI Chat Visual" className="h-20 " />
+            <img src="/gemini.png" alt="AI Chat Visual" className="h-20 " />
           </div>
 
           <div ref={hubRightRef} className="w-full md:w-1/2">
