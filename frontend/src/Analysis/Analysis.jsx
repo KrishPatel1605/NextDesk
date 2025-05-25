@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   CircularProgressbar,
   buildStyles
 } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ProgressCircle = ({ value, label }) => (
   <div className="flex flex-col items-center w-32">
@@ -12,7 +16,7 @@ const ProgressCircle = ({ value, label }) => (
       value={value}
       text={`${value}%`}
       styles={buildStyles({
-        pathColor: '#3b82f6', // blue-500
+        pathColor: '#3b82f6',
         textColor: '#3b82f6',
         trailColor: '#e5e7eb',
         textSize: '16px',
@@ -29,6 +33,62 @@ const Analysis = () => {
   const location = useLocation();
   const { analysisResult, fileName } = location.state || {};
 
+  // GSAP animation refs
+  const containerRef = useRef(null);
+  const feedbackRef = useRef(null);
+  const gapsRef = useRef(null);
+  const scorePanelRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Page container animation
+      gsap.from(containerRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        ease: 'power3.out',
+      });
+
+      // Feedback section
+      gsap.from(feedbackRef.current, {
+        scrollTrigger: {
+          trigger: feedbackRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        ease: 'power3.out',
+      });
+
+      // Resume gaps section
+      if (gapsRef.current) {
+        gsap.from(gapsRef.current, {
+          scrollTrigger: {
+            trigger: gapsRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 0,
+          x: 50,
+          duration: 1,
+          ease: 'power3.out',
+        });
+      }
+
+      // Score panel
+      gsap.from(scorePanelRef.current, {
+        opacity: 0,
+        duration: 1,
+        delay: 0.5,
+        ease: 'power3.out',
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   if (!analysisResult) {
     return (
       <div className="p-6">
@@ -38,7 +98,7 @@ const Analysis = () => {
   }
 
   return (
-    <div className="relative p-6">
+    <div ref={containerRef} className="relative p-6">
       <h2 className="text-3xl font-bold mb-6">
         Resume Analysis for {fileName}
       </h2>
@@ -48,14 +108,20 @@ const Analysis = () => {
           {/* Left Column */}
           <div className="flex-1 space-y-8">
             {/* Feedback */}
-            <div className="border border-gray-200 p-4 rounded-lg shadow-sm">
+            <div
+              ref={feedbackRef}
+              className="border border-gray-200 p-4 rounded-lg shadow-sm"
+            >
               <strong className="block mb-3 text-xl text-gray-800">Feedback:</strong>
               <p className="text-base text-gray-700">{analysisResult.overall_feedback}</p>
             </div>
 
             {/* Resume Gaps */}
             {analysisResult.resume_gap && (
-              <div className="border border-gray-200 p-4 rounded-lg shadow-sm">
+              <div
+                ref={gapsRef}
+                className="border border-gray-200 p-4 rounded-lg shadow-sm"
+              >
                 <strong className="block mb-3 text-xl text-gray-800">Resume Gaps:</strong>
 
                 {/* Missing Skills */}
@@ -140,8 +206,11 @@ const Analysis = () => {
             )}
           </div>
 
-          {/* Right Column: Fixed Top-Right Pyramid Layout */}
-          <div className="hidden md:flex fixed top-30 right-6 z-50 w-72 flex-col items-center justify-center gap-4 bg-white bg-opacity-90 rounded-xl shadow-lg p-4">
+          {/* Right Column: Score Chart Panel */}
+          <div
+            ref={scorePanelRef}
+            className="hidden md:flex fixed top-30 right-6 z-50 w-72 flex-col items-center justify-center gap-4 bg-white bg-opacity-90 rounded-xl shadow-lg p-4"
+          >
             {/* Top Row */}
             <div className="flex justify-center gap-4">
               <ProgressCircle value={parseInt(analysisResult.resume_score)} label="Resume Score" />
