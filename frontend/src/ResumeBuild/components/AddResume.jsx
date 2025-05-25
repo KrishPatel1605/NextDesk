@@ -124,8 +124,8 @@ const AddResume = () => {
 
       {/* Upload Popup */}
       {showPopup && (
-        <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
-          <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px]">
+        <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50 ">
+          <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px] border-4 border-gray-500">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Upload Resume</h2>
               <button
@@ -157,7 +157,7 @@ const AddResume = () => {
       {/* Action Popup */}
       {showActionPopup && selectedFile && (
         <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
-          <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px]">
+          <div className="bg-white text-black p-6 rounded-xl shadow-xl w-[400px] border-4 border-gray-500">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Resume:</h2>
               <button
@@ -215,7 +215,7 @@ const AddResume = () => {
       {/* Full File Preview Popup */}
       {showFullPreview && selectedFile && (
         <div className="fixed inset-0 bg-opacity-20 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-[80%] h-[90%] flex flex-col">
+          <div className="bg-white rounded-xl shadow-xl w-[80%] h-[90%] flex flex-col border-4 border-gray-500">
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-lg font-semibold">Preview: {selectedFile.name}</h2>
               <button
