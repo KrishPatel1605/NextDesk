@@ -23,13 +23,14 @@ const Home = () => {
 
           <div className="mt-5 flex items-center gap-2 text-gray-500 text-sm">
             <span>Powered by</span>
-            <img src="/public/gemini.png" alt="Gemini" className="h-5 w-auto" />
+            <img src="https://raw.githubusercontent.com/KrishPatel1605/NextDesk/refs/heads/main/frontend/public/gemini.png" alt="Gemini" className="h-5" width={60} height={200} />
           </div>
         </div>
 
-        {/* Right Content - Image */}
-        <div className="w-full md:w-2/5 h-[300px] md:h-[350px] bg-gray-100 rounded-lg shadow-inner flex items-center justify-center">
-          <img src="/public/meet.png" alt="Resume AI Visual" className="max-h-full object-contain" />
+        {/* Right Content - Image Placeholder */}
+        <div className="w-full md:w-[40%] h-[400px] bg-gray-100 rounded-lg shadow-inner flex items-center justify-center">
+          {/* Replace below with actual Image when ready */}
+          <img src="https://raw.githubusercontent.com/KrishPatel1605/NextDesk/refs/heads/main/frontend/public/meet.png" alt="Resume AI Visual" className="max-h-full object-contain" />
         </div>
       </section>
 
