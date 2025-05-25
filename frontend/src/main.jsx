@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './home/Home'
-import Dashboard from './Dashboard/Dashboard'
+import Dashboard from './ResumeBuild/ResumeBuild'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: '/dashboard',
+        path: '/resume-build',
         element: <Dashboard/>
       }
 
