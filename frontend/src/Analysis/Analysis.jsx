@@ -12,8 +12,8 @@ const ProgressCircle = ({ value, label }) => (
       value={value}
       text={`${value}%`}
       styles={buildStyles({
-        pathColor: '#8b5cf6',
-        textColor: '#8b5cf6',
+        pathColor: '#3b82f6', // blue-500
+        textColor: '#3b82f6',
         trailColor: '#e5e7eb',
         textSize: '16px',
       })}
@@ -71,7 +71,7 @@ const Analysis = () => {
                             href={ytUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-2 px-4 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+                            className="inline-block mt-2 px-4 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                           >
                             Watch on YouTube
                           </a>
@@ -94,7 +94,7 @@ const Analysis = () => {
                             href={ytUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-2 px-4 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+                            className="inline-block mt-2 px-4 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                           >
                             Watch on YouTube
                           </a>
@@ -128,7 +128,7 @@ const Analysis = () => {
                           href={linkedInURL}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-block mt-2 px-4 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+                          className="inline-block mt-2 px-4 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
                         >
                           Apply here
                         </a>

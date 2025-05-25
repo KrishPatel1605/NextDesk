@@ -56,7 +56,7 @@ const Header = () => {
       <div className='flex items-center gap-10'>
         {/* LinkedIn Icon with Link */}
         <a
-          href='https://www.linkedin.com/in/pratham-manjrekar-821b61291/' // 🔁 Replace with your actual LinkedIn URL
+          href='https://www.linkedin.com/in/krish-patel-a3a036297/' // 🔁 Replace with your actual LinkedIn URL
           target='_blank'
           rel='noopener noreferrer'
           className='flex items-center gap-2 cursor-pointer'
