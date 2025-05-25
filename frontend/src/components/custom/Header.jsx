@@ -15,14 +15,14 @@ const Header = () => {
       name: 'Krish Patel',
       college: 'VasantDada College of Engineering, Sion',
       role: 'Backend Developer, NextDesk',
-      image: '/public/Backend.png',
+      image: '/Backend.png',
       linkedin: 'https://www.linkedin.com/in/krish-patel-a3a036297/',
     },
     {
       name: 'Pratham Manjrekar',
       college: 'Thadomal Shahani College of Engineering',
       role: 'Frontend Developer, NextDesk',
-      image: '/public/Backend.png',
+      image: '/Backend.png',
       linkedin: 'https://www.linkedin.com/in/pratham-manjrekar-821b61291',
     },
   ];
