@@ -29,7 +29,7 @@ const Home = () => {
         {/* Right Content - Image Placeholder */}
         <div className="w-full md:w-[40%] h-[400px] bg-gray-100 rounded-lg shadow-inner flex items-center justify-center">
           {/* Replace below with actual Image when ready */}
-          <img src="/public/meet.png" alt="Resume AI Visual" className="max-h-full object-contain" />
+          <img src="https://raw.githubusercontent.com/KrishPatel1605/NextDesk/refs/heads/main/frontend/public/meet.png" alt="Resume AI Visual" className="max-h-full object-contain" />
         </div>
       </section>
 
