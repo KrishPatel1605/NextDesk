@@ -3,7 +3,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const analyzeResume = async (resumeText) => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro-preview-05-06" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = ` 
       You are an AI specialized in Resume Analysis just like an HR in a Company. 
